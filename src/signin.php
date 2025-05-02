@@ -1,26 +1,35 @@
 <?php 
     include('../config/database.php');
 
+    session_start();
+
+    if(issert($_SESSION['user_id'])){
+        header('Refresh:0; URL=http://localhost/schoolar/src/home.php');
+    }
+
     $email = $_POST['e_mail'];
     $passw = $_POST['p_sswd']; 
+    $enc_pass = md5($passw);
 
         $sql ="
-        SELECT id,email,password,
-count(id) as total
-from users 
-WHERE 
-	email= '$email' and
-	password = '$passw' and
-	status = true
-	group by id;
-    ";
+        SELECT
+            id,
+            count(id) as total
+        from users 
+        WHERE 
+	        email= '$email' and
+	        password = '$enc_pass' and
+	        status = true";
 
     $res = pg_query($conn, $sql);
 
     if($res){
         $row = pg_fetch_assoc($res);
         if($row['total']>0){
-            echo "Login Ok";
+        // echo "Login Ok";
+
+        $_SESSION['user_id'] = $row['id'];
+        header('Refresh:0; URL=http://localhost/schoolar/src/home.php');
         }else{
              echo "Login failed";
             }
