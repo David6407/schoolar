@@ -3,7 +3,7 @@
 
     session_start();
 
-    if(issert($_SESSION['user_id'])){
+    if(isset($_SESSION['user_id'])){
         header('Refresh:0; URL=http://localhost/schoolar/src/home.php');
     }
 
@@ -19,7 +19,9 @@
         WHERE 
 	        email= '$email' and
 	        password = '$enc_pass' and
-	        status = true";
+	        status = true
+        GROUP BY
+            id";
 
     $res = pg_query($conn, $sql);
 
