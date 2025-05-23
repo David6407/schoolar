@@ -18,15 +18,16 @@
     <th>Lastname</th>
     <th>E-mail</th>
     <th>Status</th>
-    <th>...</th>
-    
+    <th>photo</th>
+    <td>...</td>
 
     </tr>
     <?php
 $sql="
 SELECT 
+   id,
    firstname,
-   lastname
+   lastname,
    email,
    case when status=true then 'Active' else 'No Active' end as status
 from users;";
@@ -41,10 +42,11 @@ while($row = pg_fetch_assoc($res)){
     echo "<td>". $row['lastname'] ."</td>";
     echo "<td>". $row['email'] ."</td>";
     echo "<td>". $row['status'] ."</td>";
+    echo "<td align='center'><img src='photo_users/user1.png' width='20'></td>";
     echo "<td>";
     echo "<a href =''><img src= 'icons/edit.png' width='18'></a>";
-    echo "<a href =''><img src= 'icons/delete.png' width='18'></a>";
     echo "<a href =''><img src= 'icons/search.png' width='18'></a>";
+    echo "<a href ='http://localhost/schoolar/src/delete.php'><img src= 'icons/delete.png' width='18'></a>";
     echo "</td>";
     echo "</tr>";
 }
